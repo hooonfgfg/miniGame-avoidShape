@@ -30,10 +30,11 @@ public:
 	Player();
 
 	void Paint(HDC &hdc);
-
 	void GoLeft();
-	
 	void GoRight();
+
+	int GetLeft();
+	int GetRight();
 	
 	bool checkPostition();
 };
