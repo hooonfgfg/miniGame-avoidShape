@@ -1,6 +1,6 @@
 #include "Object.h"
 
-/* Àå¾Ö¹° Å¬·¡½º */
+/* ì¥ì• ë¬¼ í´ë˜ìŠ¤  */
 
 void Shape::Set(int _left, int _top, int _right, int _bottom)
 {
@@ -43,12 +43,25 @@ int Shape::GetBottom()
 
 bool Shape::collision()
 {
-	Player p;
-	
-	return true;
+	Player* player=new Player();
+
+	if (bottom > 650)
+	{
+		if (left < player->GetLeft())
+		{
+			if (right > player->GetLeft())
+				return true;
+		}
+		else if (left > player->GetLeft())
+		{
+			if (left < player->GetRight())
+				return true;
+		}
+	}
+	return false;
 }
 
-/* Player Å¬·¡½º */
+/* Player í´ë˜ìŠ¤ */
 
 
 Player::Player()
@@ -71,6 +84,16 @@ void Player::GoRight()
 {
 	left += 20;
 	right += 20;
+}
+
+int Player::GetLeft()
+{
+	return left;
+}
+
+int Player::GetRight()
+{
+	return right;
 }
 
 bool Player::checkPostition()
