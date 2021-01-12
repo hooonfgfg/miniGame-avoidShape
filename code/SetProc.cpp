@@ -57,24 +57,33 @@ void Proc::Timer(WPARAM _wParam)
 	}
 }
 
+
 void Proc::InputKeyboard(WPARAM _wParam)
 {
 	switch (_wParam)
 	{
-
+	//<-
 	case VK_LEFT:
 		player.GoLeft();
 		if (!player.checkPostition())
 			player.GoRight();
 		break;
+
+	//->
 	case VK_RIGHT:
 		player.GoRight();
 		if (!player.checkPostition())
 			player.GoLeft();
 		break;
 
+	// ESC
+	case VK_ESCAPE:
+		Destroy();
+		break;
+
 	}
 }
+
 
 void Proc::Paint()
 {	
