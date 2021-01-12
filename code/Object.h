@@ -1,6 +1,24 @@
 #pragma once
 #include <windows.h>
 
+class Player
+{
+private:
+	static int left, right;
+
+public:
+	Player();
+
+	void Paint(HDC &hdc);
+	void GoLeft();
+	void GoRight();
+
+	int GetLeft();
+	int GetRight();
+
+	bool checkPostition();
+};
+
 class Shape
 {
 private:
@@ -17,24 +35,6 @@ public:
 	int GetRight();
 	int GetBottom();
 
-	bool collision();
+	bool collision(Player& player);
 };
 
-
-class Player
-{
-private:
-	static int left , right ;
-
-public:
-	Player();
-
-	void Paint(HDC &hdc);
-	void GoLeft();
-	void GoRight();
-
-	int GetLeft();
-	int GetRight();
-	
-	bool checkPostition();
-};
