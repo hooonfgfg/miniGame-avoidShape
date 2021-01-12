@@ -1,6 +1,6 @@
 #include "Object.h"
 
-/* 장애물 클래스  */
+/* 장애물 클래스 */
 
 void Shape::Set(int _left, int _top, int _right, int _bottom)
 {
@@ -40,29 +40,28 @@ int Shape::GetBottom()
 {
 	return bottom;
 }
-
-bool Shape::collision()
+//충돌
+bool Shape::collision(Player &player)
 {
-	Player* player=new Player();
 
 	if (bottom > 650)
 	{
-		if (left < player->GetLeft())
+		if (left < player.GetLeft())
 		{
-			if (right > player->GetLeft())
+			if (right > player.GetLeft())
 				return true;
 		}
-		else if (left > player->GetLeft())
+		else if (left > player.GetLeft())
 		{
-			if (left < player->GetRight())
+			if (left < player.GetRight())
 				return true;
 		}
 	}
 	return false;
 }
 
-/* Player 클래스 */
 
+/* Player 클래스 */
 
 Player::Player()
 {
