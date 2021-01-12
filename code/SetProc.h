@@ -1,4 +1,13 @@
 #pragma once
+
+// 메모리 누수 점검
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
+#ifdef _DEBUG
+#define new new( _NORMAL_BLOCK , __FILE__ , __LINE__ )
+#endif
+
 #include <windows.h>
 #include <vector>
 #include "Object.h"
@@ -8,29 +17,23 @@ class Proc
 private:
 	HWND hWnd;
 	UINT iMsg;
-	WPARAM wParam;
-	LPARAM lParam;
-	static RECT rt;
 
+private:
 	HDC hdc;
 	PAINTSTRUCT ps;
+	static RECT rt;
 	static HANDLE hTimer;
-	
-	static int count1;
-	static int count2;
-
 	static std::vector<Shape> shape;
+
 public:
-	void Init(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam){
+	void Init(HWND hWnd, UINT iMsg){
 		this->hWnd = hWnd;
 		this->iMsg = iMsg;
-		this->wParam = wParam;
-		this->lParam = lParam;
 	}
 
 	void Create();
 
-	void Timer();
+	void Timer(WPARAM _wParam);
 
 	void Paint();
 
