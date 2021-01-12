@@ -33,6 +33,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmd
 		TranslateMessage(&Message);
 		DispatchMessage(&Message);
 	}
+	_CrtDumpMemoryLeaks(); //메모리 누수 출력
 	return Message.wParam;
 }
 
@@ -40,7 +41,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmd
 LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 {
 	Proc proc;
-	proc.Init(hWnd, iMsg, wParam, lParam);
+	proc.Init(hWnd, iMsg);
 
 	switch (iMsg) {
 
@@ -49,7 +50,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	case WM_TIMER:
-		proc.Timer();
+		proc.Timer(wParam);
 		return 0;
 
 	case WM_KEYDOWN:
