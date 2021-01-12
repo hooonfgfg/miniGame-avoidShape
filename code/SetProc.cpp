@@ -4,28 +4,30 @@
 
 HANDLE Proc::hTimer;
 RECT Proc::rt;
-int Proc::count1 = 0;
-int Proc::count2 = 0;
 std::vector<Shape> Proc::shape;
-Player player; 
+
+Player player;
 int Player::left = 0;
 int Player::right = 0;
+
+static int score = 1;
 
 void Proc::Create()
 {	
 	srand((unsigned int)time(NULL));
 	GetClientRect(hWnd, &rt);
-	SetTimer(hWnd, 1, 300, NULL); //NULL¿⁄∏Æ ƒ›πÈ«‘ºˆπÃªÁøÎ
+	SetTimer(hWnd, 1, 300, NULL); 
 	SetTimer(hWnd, 2, 100, NULL);
+	SetTimer(hWnd, 3, 100, NULL);
 }
 
-void Proc::Timer()
+void Proc::Timer(WPARAM _wParam)
 {
 	InvalidateRect(hWnd, NULL, TRUE);
 	int randnum;
 	Shape p;
 
-	switch (wParam)
+	switch (_wParam)
 	{
 
 	case 1:
@@ -34,24 +36,24 @@ void Proc::Timer()
 		p.Set(randnum, 50, randnum + 50, 100);
 		shape.push_back(p);
 		randnum = shape.size();
-		count1++;
 		break;
 	}
 	case 2: 
 	{
-		for (int i = 0; i < shape.size(); i++)
+		for (int i = 0; i < shape.size(); i++) 
 		{
 			shape[i].Fall(20);
-			if (shape[i].GetTop() > 660) // ∫Æ æ∆∑°
+			if (shape[i].GetTop() > 660) // Î≤Ω ÏïÑÎûò
 				shape.erase(shape.begin() + i);
-			if (shape[i].collision())
-			{
-				;
-			}
+
+			if (shape[i].collision(player)) //Ï∂©Îèå
+				Sleep(1000);
 		}
 		break;
 	}
-
+	case 3:
+		score++;
+		break;
 	}
 }
 
@@ -59,6 +61,7 @@ void Proc::InputKeyboard(WPARAM _wParam)
 {
 	switch (_wParam)
 	{
+
 	case VK_LEFT:
 		player.GoLeft();
 		if (!player.checkPostition())
@@ -69,14 +72,17 @@ void Proc::InputKeyboard(WPARAM _wParam)
 		if (!player.checkPostition())
 			player.GoLeft();
 		break;
+
 	}
 }
 
 void Proc::Paint()
 {	
+	TCHAR str[128] = {0};
+	
 	hdc = BeginPaint(hWnd, &ps);
 
-	Rectangle(hdc, 50, 50, 500, 700); //∞‘¿”∆«
+	Rectangle(hdc, 50, 50, 500, 700); //Í≤åÏûÑÌåê
 	
 	player.Paint(hdc);
 	for (int i = 0; i < shape.size(); i++)
@@ -84,14 +90,15 @@ void Proc::Paint()
 		shape[i].Paint(hdc);
 	}
 
-	TextOut(hdc, rt.right / 2, rt.bottom / 2, "Center String", 13);
+	wsprintf(str,TEXT("Score = %d"),score);
+	TextOut(hdc, rt.right / 2, rt.bottom / 2, str, lstrlen(str));
 
 	EndPaint(hWnd, &ps);
 }
 
 void Proc::Destroy()
 {
-	shape.clear(); //µ•¿Ã≈Õ ªË¡¶
+	shape.clear(); //Îç∞Ïù¥ÌÑ∞ ÏÇ≠Ï†ú
 	KillTimer(hWnd, 1);
 	PostQuitMessage(0);
 }
