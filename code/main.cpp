@@ -38,7 +38,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmd
 }
 
 
-LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam) //원래는 콜백함수도 클래스화 하려했는데 구조가 복잡해서 잠시 연기..
 {
 	Proc proc;
 	proc.Init(hWnd, iMsg);
